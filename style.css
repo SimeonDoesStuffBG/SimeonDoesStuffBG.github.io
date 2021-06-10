@@ -47,3 +47,7 @@ body{
     background-image: url("Background.png");
     background-repeat: repeat-x repeat-y;
 }
+
+nav{
+    background-image: url("GenresThingy.png")
+}
