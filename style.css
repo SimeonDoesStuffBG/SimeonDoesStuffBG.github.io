@@ -33,7 +33,7 @@ img, section{
     margin:5px;
 }
 
-tr p{
+.BookShelf p{
     border: 2px solid black;
     background-color: lime;
 }
