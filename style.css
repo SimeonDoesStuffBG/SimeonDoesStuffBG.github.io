@@ -21,8 +21,8 @@ header{
     display: flex;
 }
 
-h5{
-    color: lightgray;
+h4{
+    background-image: url("Paper.png");
 }
 
 main{
