@@ -40,5 +40,5 @@ img, section{
 .BookShelf>p{
     border: 2px solid black;
     background-color: lime;
-    align-self: center;
+    text-align: center;
 }
