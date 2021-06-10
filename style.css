@@ -34,7 +34,7 @@ img, section{
 }
 
 .BookShelf{
-    border-bottom: 2px solid black;
+    background-image: url("BookShelf.png");
 }
 
 .BookShelf>p{
