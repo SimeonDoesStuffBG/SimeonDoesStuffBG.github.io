@@ -42,3 +42,8 @@ img, section{
     background-color: lime;
     text-align: center;
 }
+
+body{
+    background-image: url("Background.png");
+    background-repeat: repeat-x repeat-y;
+}
