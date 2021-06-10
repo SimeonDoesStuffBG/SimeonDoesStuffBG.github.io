@@ -25,7 +25,7 @@ h4{
     background-image: url("Paper.png");
 }
 
-main{
+main>section{
     display:flex;
 }
 
@@ -49,4 +49,13 @@ body{
 
 nav{
     background-image: url("GenresThingy.png")
+}
+
+a>button{
+    background-image: url("Paper.png");
+    text-align: center;    
+}
+
+.info{
+    background-image: url("Paper.png");
 }
