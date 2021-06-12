@@ -25,7 +25,7 @@ h4{
     background-image: url("Paper.png");
 }
 
-main>section{
+section.main>section{
     display:flex;
 }
 
