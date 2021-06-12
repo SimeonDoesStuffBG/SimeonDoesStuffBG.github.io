@@ -9,9 +9,6 @@ main{
 header{
     display:flex;
 }
-table{
-    border: solid black;
-}
 
 nav{
     padding: 10px;
