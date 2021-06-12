@@ -21,7 +21,7 @@ header{
     display: flex;
 }
 
-h4{
+h4, form{
     background-image: url("Paper.png");
 }
 
@@ -29,7 +29,7 @@ section.main>section{
     display:flex;
 }
 
-section.main>h4{
+h4{
 	text-align: center;
 }
 
