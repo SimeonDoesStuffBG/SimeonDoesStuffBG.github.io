@@ -29,6 +29,10 @@ section.main>section{
     display:flex;
 }
 
+section.main>h4{
+	text-align: center;
+}
+
 img, section{
     margin:5px;
 }
