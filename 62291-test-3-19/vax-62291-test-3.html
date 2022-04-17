@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Тест 3-19 Гробищен парк-Анаглифно гледане</title>
+		<meta charset="utf-8">
+		
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		
+		<script src="three.min.js"></script>
+		<script src="vax.js"></script>
+		<script src="StereoEffect.js"></script>
+	</head>
+	
+	<body>
+		<script>
+			vaxSceneInit(vaxInitParallax, 1);
+			camera.focus=3;
+                        camera.position.set( 200, 80,0 );
+                        camera.lookAt( new THREE.Vector3(0,50,0) );
+
+			var graves = [];
+
+			for(var i =-5;i <= 5;i++){
+				if(i !=0){
+					for(var j = 0; j < 4;j++){
+						
+						graves.push(24*i,0,j*30);
+					}
+				}
+			}
+			
+			//scene.fog = new THREE.Fog('lightGray',125,250);				
+
+			var DirtMaterial = new THREE.MeshPhongMaterial({color:"brown"});
+			var GraveMaterial = new THREE.MeshPhongMaterial({color:"gray"});
+			var LableMaterial = new THREE.MeshPhongMaterial({color:"darkgray", shininess:"0"});
+
+			var dirtPile = new THREE.Mesh(new THREE.BoxGeometry(24,1,16),DirtMaterial);
+
+			var grave = new THREE.Group();
+
+			var tombstone = new THREE.Mesh(new THREE.BoxGeometry(2.5,20,16), GraveMaterial);
+			var tab = new THREE.Mesh(new THREE.BoxGeometry(1,1,4), LableMaterial);
+			tombstone.add(tab);
+			tab.position.set(1.2,6,0);
+
+			grave.add(dirtPile);
+			dirtPile.position.x = 12;
+			grave.add(tombstone);
+			tombstone.position.y = 10;
+			grave.position.z = 24;
+
+
+			var Mausoleum = new THREE.Mesh(new THREE.BoxGeometry(75,10,75),LableMaterial);
+			var MausBuilding = new THREE.Mesh(new THREE.BoxGeometry(60,75,60),GraveMaterial);
+			var Pillar = new THREE.Mesh(new THREE.BoxGeometry(10,75,10),LableMaterial);
+			var Door = tombstone.clone();
+			Door.material = LableMaterial;
+			Door.scale.x = .5;
+			var Cieling = Mausoleum.clone();
+			Cieling.scale.y = .5;			
+
+	
+
+			MausBuilding.add(Pillar);
+			Pillar.position.set(30,0,30);
+			
+			Pillar = Pillar.clone();
+			Pillar.position.z = -30;
+			MausBuilding.add(Pillar);
+			
+			Pillar = Pillar.clone();
+                        Pillar.position.x = -30;
+                        MausBuilding.add(Pillar);
+
+			Pillar = Pillar.clone();
+                        Pillar.position.z = 30;
+                        MausBuilding.add(Pillar);
+			
+			MausBuilding.add(Cieling);
+			Cieling.position.y = 40;
+
+			Mausoleum.add(Door);
+			Door.position.set(30,15,0);
+			Mausoleum.add(MausBuilding);
+			MausBuilding.position.y = 42.5;	
+			Mausoleum.position.x= -100;
+
+			object.scale.set(37.5,.125,2.5);
+			object.material.color = new THREE.Color('lightgray');
+			for(var i =0; i < graves.length;i++){
+				grave.position.set(graves[i*3+2],graves[i*3+1],graves[i*3]);
+				scene.add(grave);
+				grave = grave.clone();
+			}
+
+			var Fence = new THREE.Group();
+			var pole = new THREE.Mesh(new THREE.CylinderGeometry(1,1,40,8),LableMaterial);
+			pole.material.shininess = 100;
+			var polePeak = new THREE.Mesh(new THREE.ConeGeometry(2,4,8),LableMaterial);
+			polePeak.material.shininess=100;
+			pole.add(polePeak);
+			polePeak.position.y = 20;
+			pole.position.y = 20;
+			var longFence = new THREE.Mesh(new THREE.BoxGeometry(5,10,300),LableMaterial);
+			var shortFence = new THREE.Mesh(new THREE.BoxGeometry(5, 10, 138),LableMaterial);
+			var midPoint = new THREE.Mesh(new THREE.CylinderGeometry(1,1,300,8),LableMaterial);
+			midPoint.material.shininess = 100;
+			midPoint.rotation.x = Math.PI/2;
+			for(var i = 0; i < 30; i++){
+				longFence.add(pole);
+				pole.position.z = 149 - i * 10;
+				pole = pole.clone();
+			}
+			longFence.add(midPoint);
+			midPoint.position.y = 15;
+			midPoint = midPoint.clone();
+			midPoint.position.y = 30;
+			longFence.add(midPoint);
+			midPoint = midPoint.clone();
+			
+			Fence.add(longFence);
+			longFence.position.x=-150;
+			longFence = longFence.clone();
+			Fence.add(longFence);
+			longFence.position.set(0,0,150);
+			longFence.rotation.y = Math.PI/2;
+			longFence = longFence.clone();
+                        Fence.add(longFence);
+			longFence.position.z = -150;
+                        longFence.rotation.y = -Math.PI/2;
+
+                        
+
+
+
+			for(var i = 0; i < 14; i++){
+				shortFence.add(pole);
+                                pole.position.z = 69 - i * 10;
+                                pole = pole.clone();
+			}
+
+			midPoint.scale.y = .46;	
+		 	shortFence.add(midPoint);
+                        midPoint = midPoint.clone();
+                        midPoint.position.y = 15;
+                        shortFence.add(midPoint);
+			
+			Fence.add(shortFence);
+			shortFence.position.set(150,0,-81);
+			shortFence = shortFence.clone();
+			shortFence.position.z = 81;
+			shortFence.rotation.y = Math.PI;
+			Fence.add(shortFence);
+
+			scene.add(Fence);
+			scene.add(Mausoleum);
+			
+			var limit = (315/360)*Math.PI;
+			
+			function animate( t )
+			{
+				scene.rotation.y = limit * Math.sin(t/3);
+			}
+			
+		</script>
+	</body>
+</html>
+
+
