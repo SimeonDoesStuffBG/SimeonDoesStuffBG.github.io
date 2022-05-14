@@ -26,9 +26,9 @@
 			}
 				
 			scene.background = new THREE.CubeTextureLoader().load( [
-				'autumn_meadow/posx.png', 'autumn_meadow/negx.png',
-				'autumn_meadow/posy.png', 'autumn_meadow/negy.png',
-				'autumn_meadow/posz.png', 'autumn_meadow/negz.png' ] );
+				'hall_of_mammals/posx.png', 'hall_of_mammals/negx.png',
+				'hall_of_mammals/posy.png', 'hall_of_mammals/negy.png',
+				'hall_of_mammals/posz.png', 'hall_of_mammals/negz.png' ] );
 			
 
 			var crystals = 30;
@@ -43,7 +43,7 @@
 					var Crystal = new THREE.Mesh(mesh2, material);
 				var scaleFactor =random(.5,5);
 				Crystal.scale.set(scaleFactor,scaleFactor,scaleFactor);
-				Crystal.position.set(random(-100,100),random(-100,100),random(-100,100));
+				Crystal.position.set(random(-50,100),random(-50,100),random(-50,50));
 				scene.add(Crystal);
 			}
 
