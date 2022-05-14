@@ -16,7 +16,7 @@
 		<script>
 			vaxInit();
 			
-			camera.fov = 30;
+			//camera.fov = 30;
 			camera.position.set(0,0,0);
 	
 			onWindowResize();
@@ -43,7 +43,7 @@
 					var Crystal = new THREE.Mesh(mesh2, material);
 				var scaleFactor =random(.5,5);
 				Crystal.scale.set(scaleFactor,scaleFactor,scaleFactor);
-				Crystal.position.set(random(-100,100),random(-500,500),random(-100,100));
+				Crystal.position.set(random(-100,100),random(-100,100),random(-100,100));
 				scene.add(Crystal);
 			}
 
