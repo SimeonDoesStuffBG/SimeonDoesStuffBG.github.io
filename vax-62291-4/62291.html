@@ -17,6 +17,7 @@
 			vaxInit();
 			
 			camera.fov = 30;
+			camera.position.set(0,0,0);
 			onWindowResize();
 
 			function random(min , max ){
@@ -32,7 +33,7 @@
 			var crystals = 30;
 			var mesh = new THREE.DodecahedronGeometry(1);
 			var mesh2 = new THREE.IcosahedronGeometry(1);
-			var material = new THREE.MeshPhysicalMaterial({roughness: 0, transmissive: 1, thickness:2});
+			var material = new THREE.MeshPhysicalMaterial({roughness: 0,transmission: 1,thickness: 2});
 
 			for(var i = 0; i < crystals; i++){
 				if(i %2 ===0)
@@ -41,7 +42,7 @@
 					var Crystal = new THREE.Mesh(mesh2, material);
 				var scaleFactor =random(.5,10);
 				Crystal.scale.set(scaleFactor,scaleFactor,scaleFactor);
-				Crystal.position.set(random(-20,20),random(-20,20),random(-20,20));
+				Crystal.position.set(random(-50,50),random(-50,50),random(-50,50));
 				scene.add(Crystal);
 			}
 
