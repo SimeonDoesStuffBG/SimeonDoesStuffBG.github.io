@@ -16,11 +16,55 @@
 	<body>
 		<script>
 			vaxInitParallax();
-			
+		
 			camera.fov = 30;
 			onWindowResize();
 			
+			function random(min, max){
+				if(min > max){
+					var n = min;
+					min = max;
+					max = n;
+				}
+				return min + Math.random() * (max-min);
+			}
 
+			var cubeSize = 30;
+			var cubeG = new THREE.CubeGeometry(cubeSize*2);
+			var cubeMat = new THREE.MeshLambertMaterial({color: 'green', side:THREE.BackSize});
+			var cube = new THREE.Mesh(cubeG, cubeMat);
+			scene.add(cube);
+
+			var cones = 100;
+			var geom = new THREE.ConeGeomerty(3, 6, 12);
+			var material = new THREE.MeshPhongMaterial({color:0xffffff})
+
+			for(var i = 0; i < cones; i++){
+				material.color.setHex(Math.random * 0xffffff);
+				cone = new THREE.Mesh(geom, material);
+				cone.position.set(random(-cubeSize, cubeSize),random(-cubeSize, cubeSize),random(-cubeSize, cubeSize));
+				switch(Math.floor(random(1,7))){
+					case(1):
+					cone.position.x = 30;
+					break;
+					case(2):
+					cone.position.x = -30;
+					break;
+					case(3):
+					cone.position.y = 30;
+					break;
+					case(4):
+					cone.position.y = -30;
+					break;
+					case(5):
+					cone.position.z = 30;
+					break;
+					default://case(6)
+					cone.position.z = -30;
+					break;
+				}
+				scene.add(cone);
+			}
 			function animate()
 			{
 				
