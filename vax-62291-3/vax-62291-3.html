@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>E1113: Кубична текстура</title>
+		<meta charset="utf-8">
+		
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		
+		<script src="three.min.js"></script>
+		<script src="OrbitControls.js"></script>
+		<script src="vax.js"></script>
+		<script src="PhoneControl.js"></script>
+	</head>
+	
+	<body>
+		<script>
+			vaxInit();
+			
+			camera.fov = 30;
+			onWindowResize();
+	
+			/*var controls = new THREE.OrbitControls( camera, renderer.domElement );
+				controls.enableZoom = false;
+				controls.enablePan = false;
+				controls.enableDamping = true;
+				controls.minPolarAngle = 0.1;
+				controls.maxPolarAngle = Math.PI - 0.1;
+				controls.dampingFactor = 0.1;
+
+			*/	
+			scene.background = new THREE.CubeTextureLoader().load( [
+				'autumn_meadow/posx.png', 'autumn_meadow/negx.png',
+				'autumn_meadow/posy.png', 'autumn_meadow/negy.png',
+				'autumn_meadow/posz.png', 'autumn_meadow/negz.png' ] );
+				
+
+			function animate()
+			{
+				//controls.update();
+			}
+
+			window.addEventListener("deviceorientation", deviceOrientation, true);
+
+	var PI = Math.PI;
+
+	function rads(degrees){
+    return (degrees * PI)/180;
+	}
+
+	function deviceOrientation(event){
+   	 var alpha = event.alpha, gamma = event.gamma;
+
+  	  if(alpha === null) return;
+
+  	  if(gamma >=0)
+  	      gamma = 90-gamma;
+   		 else{
+    	    alpha += 180;
+      		  gamma = -(90+gamma);
+   	 	}
+
+    	alpha = rads(alpha);
+   		 gamma = rads(gamma);
+
+    	camera.rotation.set(gamma, alpha, 0, 'YXZ');
+	}
+			
+		</script>
+		
+	</body>
+</html>
+
+
