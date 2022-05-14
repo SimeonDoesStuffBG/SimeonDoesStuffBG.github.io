@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<title>E1113: Кубична текстура</title>
+		<title>Test 4</title>
 		<meta charset="utf-8">
 		
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
@@ -44,6 +44,7 @@
 				var scaleFactor =random(1,7.5);
 				Crystal.scale.set(scaleFactor,scaleFactor,scaleFactor);
 				Crystal.position.set(random(-50,50),random(-20,20),random(-50,50));
+				Crystal.rotation.set(random(0,2*Math.PI),random(0,2*Math.PI),random(0,2*Math.PI))
 				scene.add(Crystal);
 			}
 
