@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vax final project</title>
+    <script src="three.min.js"></script>
+    <script src="vax.js"></script>
+</head>
+<body>
+    
+    <button id="button" onclick="getVideo()" style="position:fixed; left:0; top:0; z-index:100; ">Видео</button>
+    <video id="video" autoplay style="display:none; position:fixed; left:0; top:0; z-index:-100; width: 100%;"></video>
+
+    <script>
+        function getVideo()
+        {
+            navigator.mediaDevices.getUserMedia( {video:{facingMode:"environment"}} ).then(showVideo);
+        }
+        
+        function showVideo( stream )
+        {
+            // pпоказва се видео, скрива се бутона
+            document.getElementById('video').srcObject = stream;
+            document.getElementById('video').style.display = "block";
+            document.getElementById('button').style.display = "none";
+        }
+        
+        vaxInit( {antialias:true, alpha:true} );
+        
+        camera = new THREE.PerspectiveCamera( 27, window.innerWidth/window.innerHeight, 1, 3000 );
+        camera.position.set( 0, 0, 0 );
+        camera.lookAt( new THREE.Vector3( 0, 0, -1 ) );
+
+        light.position.set( 0, 0, 0 );
+    
+        scene.fog = new THREE.Fog( 'lightcyan', 500, 3000 );
+        
+        //Initial robot position
+        var dist = 1500;
+        var ang = rads(Math.random()*360);
+        pos = circularPosition(dist,ang);
+        ang = rads(Math.random()*360);
+        var posTo = circularPosition(dist,ang);
+        
+        //placeholder robot
+        var robot = new THREE.Group();
+        var robotGeometry = new THREE.BoxGeometry(50,20,100);
+        var material = new THREE.MeshPhongMaterial({color:"gray"});
+        scene.add(robot);
+
+        var foot = new THREE.Mesh(robotGeometry, material);
+        foot.position.x= -50;
+        var legGeom = new THREE.BoxGeometry(45,100,45);
+        var leg= new THREE.Mesh(legGeom, material);
+        leg.position.y = 50;
+        leg.position.z = -20;
+        foot.add(leg);
+        
+        leg= leg.clone();
+        leg.position.y+=101;
+        foot.add(leg);
+
+        robot.add(foot);
+        foot = foot.clone();
+      
+        foot.position.x = 50;
+     
+        robot.add(foot);
+
+        
+
+        robot.position.set(pos[0],0,pos[1]);
+
+        oldT=0;
+        function animate( t )
+        {
+            var skip = t-oldT;
+            ang += skip/2;
+            pos = circularPosition(dist, ang);
+            robot.position.set(pos[0], 0, pos[1]);
+            robot.rotation.y = -ang;
+            //console.log(placeholder.position);
+           // camera.rotation.set( 0, t/5, 0, 'YZX' );
+           oldT=t;
+        }
+        
+        // слушаме за събитието на ориентацията на устройство
+        window.addEventListener( "deviceorientation", deviceOrientation, true);
+        
+        function deviceOrientation( event )
+        {
+            // взимаме ъглите
+            var alpha = event.alpha,
+                gamma = event.gamma;
+
+            if( alpha === null ) return;
+            
+            // поправяме ги, за да ни е удобно
+            if( gamma>=0 )
+                gamma = 90-gamma;
+            else
+            {
+                alpha = alpha+180;
+                gamma = -90-gamma;
+            }
+                                
+            // правим ги на радиани
+            alpha = THREE.Math.degToRad( alpha );
+            gamma = THREE.Math.degToRad( gamma );
+            
+            // въртим камерата
+            camera.rotation.set( gamma, alpha, 0, 'YXZ' );
+        }
+
+        function rads(degs){
+            return (Math.PI * degs)/180;
+        }
+
+        function circularPosition(dist, ang){
+            return [dist*Math.cos(ang), dist*Math.sin(ang)]
+        }
+    </script>
+</body>
+</html>
