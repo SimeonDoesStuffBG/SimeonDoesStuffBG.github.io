@@ -69,9 +69,39 @@
      
         robot.add(foot);
 
-        
+        var pelvisGeo = new THREE.BoxGeometry(150, 60,60);
+        var pelvis = new THREE.Mesh(pelvisGeo, material);
+        pelvis.position.set(0,200, -20);
+        robot.add(pelvis);
 
-        robot.position.set(pos[0],0,pos[1]);
+        var body = pelvis.clone();
+        body.rotation.z = Math.PI/2;
+        body.position.y += 100;
+        body.scale.y = 2;
+
+        robot.add(body);
+        
+        pelvis= pelvis.clone();
+        pelvis.position.y += 150;
+        pelvis.scale.z = 1.5;
+        robot.add(pelvis);
+
+        body = body.clone();
+        body.scale.y =.5;
+        body.scale.z = .5;
+        body.position.y +=60;
+        robot.add(body);
+
+        var headGeo = new THREE.BoxGeometry(90,90,90);
+        var head = new THREE.Mesh(headGeo, material);
+        head.position.set(body.position.x, body.position.y+100, body.position.z);
+        robot.add(head);
+
+        var eye = head.clone();
+        eye.scale.set(.2,.2,.2);
+        eye.material.color.set("red");
+
+        robot.position.set(pos[0],-200,pos[1]);
 
         oldT=0;
         function animate( t )
@@ -79,8 +109,8 @@
             var skip = t-oldT;
             ang += skip/2;
             pos = circularPosition(dist, ang);
-            robot.position.set(pos[0], 0, pos[1]);
-            robot.rotation.y = -ang;
+            robot.position.set(pos[0], -200, pos[1]);
+            robot.rotation.y = Math.PI/2-ang;
             //console.log(placeholder.position);
            // camera.rotation.set( 0, t/5, 0, 'YZX' );
            oldT=t;
