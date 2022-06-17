@@ -119,7 +119,7 @@ function vaxInitAnaglyph( )
 
 function vaxInitParallax( eyeSep = 1 )
 {
-	renderer = new THREE.WebGLRenderer( {antialias:true} );
+	renderer = new THREE.WebGLRenderer( {antialias:true,alpha:true} );
 	document.body.appendChild( renderer.domElement );
 	document.body.style.margin = 0;
 	document.body.style.overflow = 'hidden';
