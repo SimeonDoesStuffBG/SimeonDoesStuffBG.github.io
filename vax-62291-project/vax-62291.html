@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vax final project</title>
     <script src="three.min.js"></script>
-    <script src="vax.js"></script>
+    <script src="StereoEffect.js"></script>
+	<script src="vax.js"></script>
     <script src="tween.umd.js"></script>
 </head>
 <body>
@@ -28,7 +29,7 @@
             document.getElementById('button').style.display = "none";
         }
         
-        vaxInit( {antialias:true, alpha:true} );
+        vaxInitParallax( 1 );
         
         camera = new THREE.PerspectiveCamera( 27, window.innerWidth/window.innerHeight, 1, 3000 );
         camera.position.set( 0, 0, 0 );
@@ -45,8 +46,8 @@
         //Initial robot position
         var dist = 2500;
         var ang = rads(Math.random()*360);
-        var pos = circularPosition(dist,ang);
-        //var pos = circularPosition(dist, -Math.PI/2);
+        //var pos = circularPosition(dist,ang);
+       var pos = circularPosition(dist, -Math.PI/2);
         
         //placeholder robot
         var robot = new THREE.Group();
@@ -182,7 +183,7 @@
             legGroup1.rotation.x = -s;
             
             //robot.rotation.y = Math.PI/2;
-            TWEEN.update();
+            //TWEEN.update();
             
         
         }
