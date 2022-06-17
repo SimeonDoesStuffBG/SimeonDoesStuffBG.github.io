@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vax final project</title>
+    <script src="three.min.js"></script>
+    <script src="vax.js"></script>
+    <script src="tween.umd.js"></script>
+</head>
+<body>
+    
+    <button id="button" onclick="getVideo()" style="position:fixed; left:0; top:0; z-index:100; ">Видео</button>
+    <video id="video" autoplay style="display:none; position:fixed; left:0; top:0; z-index:-100; width: 100%;"></video>
+
+    <script>
+        function getVideo()
+        {
+            navigator.mediaDevices.getUserMedia( {video:{facingMode:"environment"}} ).then(showVideo);
+        }
+        
+        function showVideo( stream )
+        {
+            // pпоказва се видео, скрива се бутона
+            document.getElementById('video').srcObject = stream;
+            document.getElementById('video').style.display = "block";
+            document.getElementById('button').style.display = "none";
+        }
+        
+        vaxInit( {antialias:true, alpha:true} );
+        
+        camera = new THREE.PerspectiveCamera( 27, window.innerWidth/window.innerHeight, 1, 3000 );
+        camera.position.set( 0, 0, 0 );
+        camera.lookAt( new THREE.Vector3( 0, 0, -1 ) );
+
+        light.position.set( 0, 0, 0 );
+    
+        scene.fog = new THREE.Fog( 'lightcyan', 500, 3000 );
+        
+        var material = new THREE.MeshPhongMaterial({color:"gray"});
+        var darkMat = new THREE.MeshPhongMaterial({color:0x555555});
+        var eyeMat =  new THREE.MeshPhongMaterial({color:"red"});
+
+        //Initial robot position
+        var dist = 2500;
+        var ang = rads(Math.random()*360);
+        var pos = circularPosition(dist,ang);
+        //var pos = circularPosition(dist, -Math.PI/2);
+        
+        //placeholder robot
+        var robot = new THREE.Group();
+
+        var pelvisGeo = new THREE.BoxGeometry(150, 60,60);
+        var pelvis = new THREE.Mesh(pelvisGeo, darkMat);
+        pelvis.position.set(0,200, -20);
+        robot.add(pelvis);
+
+        var body = pelvis.clone();
+        body.material = material;
+        body.rotation.z = Math.PI/2;
+        body.position.y += 100;
+        body.scale.y = 2;
+
+        robot.add(body);
+        
+        pelvis= pelvis.clone();
+        pelvis.position.y += 150;
+        pelvis.scale.y = 1.5;
+        robot.add(pelvis);
+
+        pelvis = pelvis.clone();
+        pelvis.scale.y = .5;
+        pelvis.scale.x = 1.5;
+        pelvis.scale.z = .5;
+        robot.add(pelvis);
+      
+        scene.add(robot);
+
+        var legGroup = new THREE.Group();
+        robot.add(legGroup);
+
+        var legGroup1 = new THREE.Group();
+        var legGeom = new THREE.BoxGeometry(45,150,45);
+        var legA1= new THREE.Mesh(legGeom, material);
+        legA1.position.y = -50;
+        legGroup1.position.set(-45,153,-20);
+        robot.add(legGroup1);
+       
+        
+        var legA2= legA1.clone();
+        legA2.position.set(0,-153,0);
+        
+        legA1.add(legA2);
+        
+        var armA1 = legA1.clone();
+        
+        armA1.scale.set(.85,1,.85);
+        armA1.position.y =-40;
+
+
+        var footGeometry = new THREE.BoxGeometry(50,20,100);
+        var foot1 = new THREE.Mesh(footGeometry, material);
+        foot1.position.y = -75;
+        foot1.position.z = 20;
+        legA2.add(foot1);
+        
+        var armGroup1 = legGroup1.clone();
+
+        legGroup1.add(legA1);
+        
+        var legGroup2 = legGroup1.clone();
+        armGroup1.add(armA1);
+
+        legGroup2.position.x = 45;
+        robot.add(legGroup2);
+
+        armGroup1.position.set(110, 350,-20);
+        robot.add(armGroup1);
+
+        var armGroup2 = armGroup1.clone();
+        armGroup2.position.x= -110;
+        robot.add(armGroup2);     
+        
+        body = body.clone();
+        body.scale.y =.5;
+        body.scale.z = .5;
+        body.position.y +=60;
+        robot.add(body);
+
+        var headGeo = new THREE.BoxGeometry(90,90,90);
+        var head = new THREE.Mesh(headGeo, material);
+        head.position.set(body.position.x, body.position.y+100, body.position.z);
+        robot.add(head);
+
+        var eye = head.clone();
+        eye.scale.set(.2,.2,.2);
+        eye.position.z += 45;
+        eye.position.x += 20;
+        eye.position.y += 5;
+        eye.material = eyeMat;
+        robot.add(eye);
+
+        eye = eye.clone();
+        eye.position.x -= 40;
+        robot.add(eye);
+
+        robot.position.set(pos[0],-200,pos[1]);
+
+        var tweens = [];
+        var rots = [];
+        tweens[0] = new TWEEN.Tween(robot.position).to(new THREE.Vector3(pos[0],-200,pos[1]), 5000);
+        var posFrom = [...pos];
+        for(var i = 0; i < 10; i++){
+            ang = rads(Math.random()*360);
+            
+            var posTo = circularPosition(dist,ang);
+         
+            var rAng = Math.atan2(posTo[0]-posFrom[0], posTo[1]-posFrom[1]);
+
+            rots.push(new TWEEN.Tween(robot.rotation).to(new THREE.Vector3(0,rAng,0),1500));
+
+            var posVector = new THREE.Vector3(posTo[0],-200,posTo[1]);
+            tweens.push(new TWEEN.Tween(robot.position).to(posVector, 5000));
+            
+            tweens[i].chain(rots[i]);
+            rots[i].chain(tweens[(i+1)%10]);
+            posFrom = posTo;
+        }
+        
+        
+        tweens[0].start();
+        
+        var oldT=0;
+        function animate( t )
+        {
+            var s = Math.sin(t);
+            armGroup1.rotation.x = s;
+            armGroup2.rotation.x = -s;
+
+            legGroup2.rotation.x = s;
+            legGroup1.rotation.x = -s;
+            
+            //robot.rotation.y = Math.PI/2;
+            TWEEN.update();
+            
+        
+        }
+        
+        // слушаме за събитието на ориентацията на устройство
+        window.addEventListener( "deviceorientation", deviceOrientation, true);
+        
+        function deviceOrientation( event )
+        {
+            // взимаме ъглите
+            var alpha = event.alpha,
+                gamma = event.gamma;
+
+            if( alpha === null ) return;
+            
+            // поправяме ги, за да ни е удобно
+            if( gamma>=0 )
+                gamma = 90-gamma;
+            else
+            {
+                alpha = alpha+180;
+                gamma = -90-gamma;
+            }
+                                
+            // правим ги на радиани
+            alpha = THREE.Math.degToRad( alpha );
+            gamma = THREE.Math.degToRad( gamma );
+            
+            // въртим камерата
+            camera.rotation.set( gamma, alpha, 0, 'YXZ' );
+        }
+
+        function rads(degs){
+            return (Math.PI * degs)/180;
+        }
+
+        function circularPosition(dist, ang){
+            return [dist*Math.cos(ang), dist*Math.sin(ang)]
+        }
+    </script>
+</body>
+</html>
