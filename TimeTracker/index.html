@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Task tracker</h1>
+    <main id="app">
+        <label for="days">Days Worked: </label>
+        <input type="number" id="days" v-model="days">
+        <section id="add-task">
+            <input type="text" placeholder="Add Task" v-model="curTask">
+           <button @click="addTask">Add</button>
+        </section>
+        
+
+        <section id="tasks-viewer">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Hours</th>
+                    <th>Minutes</th>
+                </tr>
+                <tr v-for="(task, index) in tasks">
+                    <td><input type="text" v-model="task.name"></td>
+                    <td><input type="number" v-model="task.hours" @input="setTime"/></td>
+                    <td><input type="number" v-model="task.minutes" @input="setTime"/></td>
+                </tr>
+            </table>
+            <p>You have worked for {{hours()}} hours and {{minutes()}} minutes</p>
+            <p>You have {{hoursLeft()}} hours and {{minutesLeft()}} minutes not accounted for</p>
+        </section>
+    </main>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="task.js"></script>
+    <script src="difs.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

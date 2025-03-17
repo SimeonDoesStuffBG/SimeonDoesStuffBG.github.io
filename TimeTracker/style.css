@@ -1,0 +1,31 @@
+li {
+    margin-top: 5px;
+}
+
+section#tasks-viewer h1{
+    color:red;
+}
+
+td input{
+    border: none;
+    display: inline;
+    font-family: inherit;
+    font-size: inherit;
+    padding: none;
+    width: auto;
+}
+
+
+  table{
+    border: 2px solid black;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+th{
+    background-color: greenyellow;
+}
+
+td, th{
+    border: 1px solid black;
+}
